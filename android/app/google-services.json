@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "10843096048",
+    "project_id": "ffproject-fd396",
+    "storage_bucket": "ffproject-fd396.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10843096048:android:a05db3c5ca10616b06d335",
+        "android_client_info": {
+          "package_name": "com.flyfood.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIX7Sm-8xmmLNfxHLJzumKNYEm7ynkWTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
