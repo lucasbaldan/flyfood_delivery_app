@@ -1,4 +1,4 @@
-import 'package:antes_prova/Controllers/mercadoriaController.dart';
+import 'package:antes_prova/Controllers/mercadoria_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

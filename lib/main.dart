@@ -1,4 +1,4 @@
-import 'package:antes_prova/screens/LoginPage.dart';
+import 'package:antes_prova/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';

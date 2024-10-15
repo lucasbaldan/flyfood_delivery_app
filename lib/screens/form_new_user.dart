@@ -1,11 +1,16 @@
+import 'package:antes_prova/Controllers/form_new_user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class FormNewUser extends StatelessWidget {
-  const FormNewUser({super.key});
+  FormNewUser({super.key});
+
+  final FormNewUserController userController = Get.put(FormNewUserController());
 
   @override
   Widget build(BuildContext context) {
     return Form(
+        key: userController.formKey,
         child: Scaffold(
             appBar: AppBar(
                 elevation: 20,
@@ -13,7 +18,9 @@ class FormNewUser extends StatelessWidget {
                 backgroundColor: const Color(0xfffc11313),
                 title: const Text("FlyFood"),
                 titleTextStyle: const TextStyle(fontSize: 25)),
-            body: Container(
+            body: SingleChildScrollView(
+                child: Container(
+                  height: 718,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/fundocaduser.png'),
@@ -55,12 +62,17 @@ class FormNewUser extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10, top: 20, right: 20),
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 20, right: 20),
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: userController.nomeUserController,
+                            validator: (value) =>
+                                userController.validaNomeUser(value),
                             style: const TextStyle(color: Colors.white),
-                            cursorColor: const Color.fromARGB(255, 255, 255, 255),
+                            cursorColor:
+                                const Color.fromARGB(255, 255, 255, 255),
                             decoration: const InputDecoration(
                               icon: Icon(Icons.person),
                               labelText: "Nome Completo",
@@ -68,19 +80,25 @@ class FormNewUser extends StatelessWidget {
                               labelStyle: TextStyle(color: Colors.white),
                               focusColor: Colors.white,
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.white), // Cor da linha quando habilitado
+                                borderSide: BorderSide(color: Colors.white),
                               ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                    color:Colors.white), // Cor da linha quando em foco
+                                    color: Colors
+                                        .white), // Cor da linha quando em foco
                               ),
                             ),
                           ),
-                          const SizedBox(height: 15,),
+                          const SizedBox(
+                            height: 15,
+                          ),
                           TextFormField(
+                            controller: userController.emailUserController,
+                            validator: (value) =>
+                                userController.validaEmailUser(value),
                             style: const TextStyle(color: Colors.white),
-                            cursorColor: const Color.fromARGB(255, 255, 255, 255),
+                            cursorColor:
+                                const Color.fromARGB(255, 255, 255, 255),
                             decoration: const InputDecoration(
                               icon: Icon(Icons.email),
                               labelText: "Email",
@@ -89,18 +107,27 @@ class FormNewUser extends StatelessWidget {
                               focusColor: Colors.white,
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.white), // Cor da linha quando habilitado
+                                    color: Colors
+                                        .white), // Cor da linha quando habilitado
                               ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                    color:Colors.white), // Cor da linha quando em foco
+                                    color: Colors
+                                        .white), // Cor da linha quando em foco
                               ),
                             ),
                           ),
-                          const SizedBox(height: 15,),
+                          const SizedBox(
+                            height: 15,
+                          ),
                           TextFormField(
+                            obscureText: true,
+                            controller: userController.passwordUserController,
+                            validator: (value) =>
+                                userController.validaPasswordUser(value),
                             style: const TextStyle(color: Colors.white),
-                            cursorColor: const Color.fromARGB(255, 255, 255, 255),
+                            cursorColor:
+                                const Color.fromARGB(255, 255, 255, 255),
                             decoration: const InputDecoration(
                               icon: Icon(Icons.password),
                               labelText: "Senha",
@@ -109,39 +136,45 @@ class FormNewUser extends StatelessWidget {
                               focusColor: Colors.white,
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                    color: Colors.white), // Cor da linha quando habilitado
+                                    color: Colors
+                                        .white), // Cor da linha quando habilitado
                               ),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                    color:Colors.white), // Cor da linha quando em foco
+                                    color: Colors
+                                        .white), // Cor da linha quando em foco
                               ),
                             ),
                           ),
-                          const SizedBox(height: 15,),
                         ],
                       ),
                     ),
-                    const Spacer(),
+                    const Expanded(child: SizedBox()),
                     Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                          label: const Text("Enviar", style: TextStyle(fontSize: 16),),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.amber.shade400,
-                            foregroundColor: Colors.black,
-                            elevation: 20,
-                            padding: const EdgeInsets.fromLTRB(0, 13, 0, 13)
-                          ),
-                          icon: const Icon(Icons.near_me),
-                          onPressed: () {}),
-                                        ),
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                            label: const Text(
+                              "Cadastrar",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.amber.shade400,
+                                foregroundColor: Colors.black,
+                                elevation: 20,
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 13, 0, 13)),
+                            icon: const Icon(Icons.near_me),
+                            onPressed: () {
+                              userController.createUser();
+                            }),
+                      ),
                     ),
-                  const SizedBox(height: 30,)
+                    const SizedBox(height: 30,)
                   ],
                 ),
               ),
-            )));
+            ))));
   }
 }

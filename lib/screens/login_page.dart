@@ -52,7 +52,7 @@ class Loginpage extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(0, 13, 0, 13)
                         ),
                         icon: const Icon(Icons.person_add_outlined),
-                        onPressed: () => Get.to(() => const FormNewUser())),
+                        onPressed: () => Get.to(() => FormNewUser())),
                   ),
                 ],
               ),

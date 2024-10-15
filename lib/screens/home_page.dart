@@ -1,5 +1,5 @@
 import 'package:antes_prova/components/BottomNavFlyFood.dart';
-import 'package:antes_prova/screens/ListMercadoria.dart';
+import 'package:antes_prova/screens/list_mercadoria.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
