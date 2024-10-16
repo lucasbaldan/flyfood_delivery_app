@@ -1,8 +1,9 @@
+import 'package:antes_prova/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-class FormNewUserController extends GetxController {
+class UserController extends GetxController {
   var formKey = GlobalKey<FormState>();
   TextEditingController nomeUserController = TextEditingController();
   TextEditingController emailUserController = TextEditingController();
@@ -37,18 +38,29 @@ class FormNewUserController extends GetxController {
   Future<void> createUser() async {
     if (formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
+        Get.dialog(
+          const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          ),
+          barrierDismissible: false,
+        );
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailUserController.text.trim(),
           password: passwordUserController.text.trim(),
         );
 
-        await userCredential.user?.updateDisplayName(nomeUserController.text.trim());
+        await userCredential.user
+            ?.updateDisplayName(nomeUserController.text.trim());
 
         // Obtém o usuário criado
         User? user = userCredential.user;
 
         if (user != null) {
+          Get.back();
+          Get.back();
           Get.snackbar(
             "Sucesso",
             "Usuário criado com sucesso!",
@@ -68,6 +80,7 @@ class FormNewUserController extends GetxController {
           errorMessage = 'Erro desconhecido: ${e.message}';
         }
 
+        Get.back();
         Get.snackbar(
           "Erro",
           errorMessage,
@@ -75,6 +88,7 @@ class FormNewUserController extends GetxController {
           colorText: Colors.white,
         );
       } catch (e) {
+        Get.back();
         Get.snackbar(
           "Erro",
           "Ocorreu um erro ao criar o usuário. Tente novamente.",
@@ -84,7 +98,7 @@ class FormNewUserController extends GetxController {
       }
     } else {
       Get.snackbar(
-        "Erro",
+        "Atenção",
         "Por favor, preencha todos os campos corretamente.",
         backgroundColor: Colors.orange.shade400,
         colorText: Colors.white,
@@ -92,4 +106,63 @@ class FormNewUserController extends GetxController {
     }
   }
 
+  Future<void> login() async {
+    if (formKey.currentState!.validate()) {
+      try {
+        Get.dialog(
+          const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          ),
+          barrierDismissible: false,
+        );
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailUserController.text,
+                password: passwordUserController.text);
+
+        Get.back();
+        Get.to(const Homepage());
+        Get.snackbar(
+          "Sucesso",
+          "Login Efetuado com Sucesso!",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } on FirebaseAuthException catch (e) {
+        String errorMessage;
+        if (e.code == 'invalid-credential') {
+          errorMessage = 'Email e/ou Senha inválido(s)';
+        } else if (e.code == 'too-many-requests') {
+          errorMessage = 'Muitas tentativas não sucedidas foram efetuadas. Tente novamente mais tarde.';
+        } else {
+          errorMessage = 'Erro ao efetuar login: ${e.code}';
+        }
+
+        Get.back();
+        Get.snackbar(
+          "Login Inválido",
+          errorMessage,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      } catch (e) {
+        Get.back();
+        Get.snackbar(
+          "Erro",
+          "Ocorreu um erro ao efetuar o login. Tente novamente.",
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } else {
+      Get.snackbar(
+        "Atenção",
+        "Por favor, preencha todos os campos corretamente.",
+        backgroundColor: Colors.orange.shade400,
+        colorText: Colors.white,
+      );
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:antes_prova/screens/form_login_email_senha.dart';
 import 'package:antes_prova/screens/form_new_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ class Loginpage extends StatelessWidget {
             ),
             Image.asset('assets/logo.png'),
             const Text(
-              "SUA REFEIÇÃO COM ASAS!",
+              "O CÉU NÃO É MAIS O LIMITE PARA SUA FOME",
               style: TextStyle(color: Color(0xfffffd700), fontSize: 15),
             ),
             const Spacer(),
@@ -38,7 +39,7 @@ class Loginpage extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(0, 13, 0, 13)
                         ),
                         icon: const Icon(Icons.login_outlined),
-                        onPressed: () {}),
+                        onPressed: () => Get.to(() => FormLoginEmailSenha())),
                   ),
                   const SizedBox(height: 25),
                   SizedBox(

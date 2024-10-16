@@ -2,8 +2,8 @@ import 'package:antes_prova/Controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class FormNewUser extends StatelessWidget {
-  FormNewUser({super.key});
+class FormLoginEmailSenha extends StatelessWidget {
+  FormLoginEmailSenha({super.key});
 
 final UserController userController = Get.isRegistered<UserController>()
       ? Get.find<UserController>()
@@ -39,26 +39,26 @@ final UserController userController = Get.isRegistered<UserController>()
                           const SizedBox(
                             height: 20,
                           ),
-                          const Text(
-                            'Seja bem vindo, Capitão!',
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                          const Text('Prepare-se para decolar!',
+                          const Text('Tá esperando o que?',
                               style:
                                   TextStyle(fontSize: 15, color: Colors.white)),
-                          const SizedBox(
-                            height: 10,
+                                  const Text(
+                            'Informe suas credenciais',
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                           const Text(
-                              'Nossa missão é entregar o melhor aonde quer que o seu cliente esteja.',
+                              'e bora decolar!',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.white,
                               )),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Image.asset(
                             'assets/logo.png',
-                            width: 200,
+                            width: 250,
                           ),
                         ],
                       ),
@@ -68,29 +68,6 @@ final UserController userController = Get.isRegistered<UserController>()
                           const EdgeInsets.only(left: 10, top: 20, right: 20),
                       child: Column(
                         children: [
-                          TextFormField(
-                            controller: userController.nomeUserController,
-                            validator: (value) =>
-                                userController.validaNomeUser(value),
-                            style: const TextStyle(color: Colors.white),
-                            cursorColor:
-                                const Color.fromARGB(255, 255, 255, 255),
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.person),
-                              labelText: "Nome Completo",
-                              iconColor: Color.fromARGB(255, 255, 255, 255),
-                              labelStyle: TextStyle(color: Colors.white),
-                              focusColor: Colors.white,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors
-                                        .white), // Cor da linha quando em foco
-                              ),
-                            ),
-                          ),
                           const SizedBox(
                             height: 15,
                           ),
@@ -120,7 +97,7 @@ final UserController userController = Get.isRegistered<UserController>()
                             ),
                           ),
                           const SizedBox(
-                            height: 15,
+                            height: 35,
                           ),
                           TextFormField(
                             obscureText: true,
@@ -158,7 +135,7 @@ final UserController userController = Get.isRegistered<UserController>()
                         width: double.infinity,
                         child: ElevatedButton.icon(
                             label: const Text(
-                              "Cadastrar",
+                              "Acessar",
                               style: TextStyle(fontSize: 16),
                             ),
                             style: ElevatedButton.styleFrom(
@@ -167,9 +144,9 @@ final UserController userController = Get.isRegistered<UserController>()
                                 elevation: 20,
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 13, 0, 13)),
-                            icon: const Icon(Icons.near_me),
+                            icon: const Icon(Icons.keyboard_command_key),
                             onPressed: () {
-                              userController.createUser();
+                              userController.login();
                             }),
                       ),
                     ),
