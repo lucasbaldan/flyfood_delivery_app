@@ -1,7 +1,11 @@
+import 'package:antes_prova/Models/user_model.dart';
+import 'package:antes_prova/Services/auth_service.dart';
 import 'package:antes_prova/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+
+AuthService FBAuth = Get.find();
 
 class UserController extends GetxController {
   var formKey = GlobalKey<FormState>();
@@ -35,9 +39,8 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> createUser() async {
+  void createUser() async {
     if (formKey.currentState!.validate()) {
-      try {
         Get.dialog(
           const Center(
             child: CircularProgressIndicator(
@@ -46,60 +49,34 @@ class UserController extends GetxController {
           ),
           barrierDismissible: false,
         );
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailUserController.text.trim(),
-          password: passwordUserController.text.trim(),
-        );
 
-        await userCredential.user
-            ?.updateDisplayName(nomeUserController.text.trim());
+       String result = await FBAuth.createUser(userCreated: Usuario(nomeUsuario: nomeUserController.text, email: emailUserController.text, password: passwordUserController.text));
 
-        // Obtém o usuário criado
-        User? user = userCredential.user;
-
-        if (user != null) {
+        if (result != '') {
           Get.back();
+          Get.snackbar(
+            "Erro",
+            result,
+            icon: const Icon(Icons.error_outline),
+            backgroundColor: const Color.fromARGB(255, 202, 0, 0),
+            colorText: Colors.white,
+          );
+        } else {
           Get.back();
           Get.snackbar(
             "Sucesso",
-            "Usuário criado com sucesso!",
-            backgroundColor: Colors.green,
+            "Usuário criado com êxito",
+            icon: const Icon(Icons.check),
+            backgroundColor: const Color.fromARGB(255, 10, 117, 0),
             colorText: Colors.white,
           );
         }
-      } on FirebaseAuthException catch (e) {
-        String errorMessage;
-        if (e.code == 'weak-password') {
-          errorMessage = 'A senha é muito fraca.';
-        } else if (e.code == 'email-already-in-use') {
-          errorMessage = 'Este email já está em uso.';
-        } else if (e.code == 'invalid-email') {
-          errorMessage = 'Email inválido.';
-        } else {
-          errorMessage = 'Erro desconhecido: ${e.message}';
-        }
-
-        Get.back();
-        Get.snackbar(
-          "Erro",
-          errorMessage,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      } catch (e) {
-        Get.back();
-        Get.snackbar(
-          "Erro",
-          "Ocorreu um erro ao criar o usuário. Tente novamente.",
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      }
+      
     } else {
       Get.snackbar(
         "Atenção",
         "Por favor, preencha todos os campos corretamente.",
+        icon: const Icon(Icons.assignment_late_rounded),
         backgroundColor: Colors.orange.shade400,
         colorText: Colors.white,
       );
@@ -135,7 +112,8 @@ class UserController extends GetxController {
         if (e.code == 'invalid-credential') {
           errorMessage = 'Email e/ou Senha inválido(s)';
         } else if (e.code == 'too-many-requests') {
-          errorMessage = 'Muitas tentativas não sucedidas foram efetuadas. Tente novamente mais tarde.';
+          errorMessage =
+              'Muitas tentativas não sucedidas foram efetuadas. Tente novamente mais tarde.';
         } else {
           errorMessage = 'Erro ao efetuar login: ${e.code}';
         }
