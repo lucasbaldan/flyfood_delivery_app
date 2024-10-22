@@ -1,13 +1,19 @@
+import 'package:antes_prova/Services/auth_service.dart';
 import 'package:antes_prova/components/BottomNavFlyFood.dart';
 import 'package:antes_prova/screens/list_mercadoria.dart';
+import 'package:antes_prova/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+  Homepage({super.key});
+
+  final AuthService FBAuth = Get.find<AuthService>();
 
   @override
   Widget build(BuildContext context) {
+    String nomeUsuario = FBAuth.getCurrentUser()?.displayName ?? 'Usuário';
+
     return Scaffold(
       appBar: AppBar(
           elevation: 20,
@@ -17,38 +23,39 @@ class Homepage extends StatelessWidget {
           titleTextStyle: const TextStyle(fontSize: 25)),
       drawer: Drawer(
         child: ListView(
-          children: const [
+          children: [
             DrawerHeader(
                 child: Column(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   maxRadius: 35,
                   backgroundImage: AssetImage('assets/user.png'),
                 ),
-                Padding(padding: EdgeInsetsDirectional.all(5)),
-                Text("Lucas Fáe Baldan"),
-                Text("Plano Atual: Premium")
+                const Padding(padding: EdgeInsetsDirectional.all(5)),
+                Text(nomeUsuario),
+                const Text("Plano Atual: Premium")
               ],
             )),
-            ListTile(
+            const ListTile(
               title: Text("Home"),
               leading: Icon(Icons.home),
             ),
-            ListTile(
+            const ListTile(
               title: Text("Trocar Plano"),
               leading: Icon(Icons.price_change),
             ),
-            ListTile(
+            const ListTile(
               title: Text("Regiões Atendidas"),
               leading: Icon(Icons.map),
             ),
-            ListTile(
+            const ListTile(
               title: Text("Configurações"),
               leading: Icon(Icons.settings),
             ),
             ListTile(
-              title: Text("Sair"),
-              leading: Icon(Icons.logout),
+              onTap: () => {FBAuth.logout(), Get.off(const Loginpage())},
+              title: const Text("Sair"),
+              leading: const Icon(Icons.logout),
             )
           ],
         ),

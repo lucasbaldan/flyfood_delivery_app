@@ -2,12 +2,10 @@ import 'package:antes_prova/Models/user_model.dart';
 import 'package:antes_prova/Services/auth_service.dart';
 import 'package:antes_prova/screens/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-AuthService FBAuth = Get.find();
-
 class UserController extends GetxController {
+  AuthService FBAuth = Get.find<AuthService>();
   var formKey = GlobalKey<FormState>();
   TextEditingController nomeUserController = TextEditingController();
   TextEditingController emailUserController = TextEditingController();
@@ -41,37 +39,41 @@ class UserController extends GetxController {
 
   void createUser() async {
     if (formKey.currentState!.validate()) {
-        Get.dialog(
-          const Center(
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
           ),
-          barrierDismissible: false,
+        ),
+        barrierDismissible: false,
+      );
+
+      String result = await FBAuth.createUser(
+          userCreated: Usuario(
+              nomeUsuario: nomeUserController.text,
+              email: emailUserController.text,
+              password: passwordUserController.text));
+
+      if (result != '') {
+        Get.back();
+        Get.snackbar(
+          "Erro",
+          result,
+          icon: const Icon(Icons.error_outline),
+          backgroundColor: const Color.fromARGB(255, 202, 0, 0),
+          colorText: Colors.white,
         );
-
-       String result = await FBAuth.createUser(userCreated: Usuario(nomeUsuario: nomeUserController.text, email: emailUserController.text, password: passwordUserController.text));
-
-        if (result != '') {
-          Get.back();
-          Get.snackbar(
-            "Erro",
-            result,
-            icon: const Icon(Icons.error_outline),
-            backgroundColor: const Color.fromARGB(255, 202, 0, 0),
-            colorText: Colors.white,
-          );
-        } else {
-          Get.back();
-          Get.snackbar(
-            "Sucesso",
-            "Usuário criado com êxito",
-            icon: const Icon(Icons.check),
-            backgroundColor: const Color.fromARGB(255, 10, 117, 0),
-            colorText: Colors.white,
-          );
-        }
-      
+      } else {
+        Get.back();
+        Get.snackbar(
+          "Sucesso",
+          "Usuário criado com êxito",
+          icon: const Icon(Icons.check),
+          backgroundColor: const Color.fromARGB(255, 10, 117, 0),
+          colorText: Colors.white,
+        );
+        Get.off(Homepage());
+      }
     } else {
       Get.snackbar(
         "Atenção",
@@ -83,54 +85,39 @@ class UserController extends GetxController {
     }
   }
 
-  Future<void> login() async {
+  void login() async {
     if (formKey.currentState!.validate()) {
-      try {
-        Get.dialog(
-          const Center(
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
           ),
-          barrierDismissible: false,
-        );
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: emailUserController.text,
-                password: passwordUserController.text);
+        ),
+        barrierDismissible: false,
+      );
 
-        Get.back();
-        Get.to(const Homepage());
-        Get.snackbar(
-          "Sucesso",
-          "Login Efetuado com Sucesso!",
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      } on FirebaseAuthException catch (e) {
-        String errorMessage;
-        if (e.code == 'invalid-credential') {
-          errorMessage = 'Email e/ou Senha inválido(s)';
-        } else if (e.code == 'too-many-requests') {
-          errorMessage =
-              'Muitas tentativas não sucedidas foram efetuadas. Tente novamente mais tarde.';
-        } else {
-          errorMessage = 'Erro ao efetuar login: ${e.code}';
-        }
+      String result = await FBAuth.loginUser(
+          userLogged: Usuario(
+              nomeUsuario: nomeUserController.text,
+              email: emailUserController.text,
+              password: passwordUserController.text));
 
+      if (result != '') {
         Get.back();
         Get.snackbar(
           "Login Inválido",
-          errorMessage,
+          result,
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
-      } catch (e) {
+      } else {
         Get.back();
+        Get.off(Homepage());
         Get.snackbar(
-          "Erro",
-          "Ocorreu um erro ao efetuar o login. Tente novamente.",
-          backgroundColor: Colors.red,
+          "Sucesso",
+          "Login Efetuado com Sucesso!",
+          icon: const Icon(Icons.check),
+          backgroundColor: Colors.green,
           colorText: Colors.white,
         );
       }

@@ -13,8 +13,8 @@ class AuthService {
 
       User? user = userCredential.user;
 
-      if(user == null) return "Erro ao cadastrar usuário, tente novamente mais tarde"; 
-
+      if (user == null)
+        return "Erro ao cadastrar usuário, tente novamente mais tarde";
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       if (e.code == 'weak-password') {
@@ -34,9 +34,26 @@ class AuthService {
     return '';
   }
 
-  Future<void> loginUser({required Usuario userLogged}) async {
-    _firebaseAuth.signInWithEmailAndPassword(
-        email: userLogged.email, password: userLogged.password);
+  Future<String> loginUser({required Usuario userLogged}) async {
+    try {
+      _firebaseAuth.signInWithEmailAndPassword(
+          email: userLogged.email, password: userLogged.password);
+
+      return '';
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      if (e.code == 'invalid-credential') {
+        errorMessage = 'Email e/ou Senha inválido(s)';
+      } else if (e.code == 'too-many-requests') {
+        errorMessage =
+            'Muitas tentativas não sucedidas foram efetuadas. Tente novamente mais tarde.';
+      } else {
+        errorMessage = 'Erro ao efetuar login: ${e.code}';
+      }
+      return errorMessage;
+    } catch (e) {
+      return "Erro ao efetuar Login";
+    }
   }
 
   User? getCurrentUser() {
