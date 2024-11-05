@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:antes_prova/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -37,30 +39,42 @@ class AuthService {
   }
 
   Future<String> loginGoogle() async {
+  try {
     GoogleSignIn googleSignIn = GoogleSignIn();
-
     GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
-    if (googleSignInAccount != null){
-        GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    if (googleSignInAccount != null) {
+      GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
 
       AuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken
+        accessToken: googleSignInAuthentication.accessToken,
       );
 
-      await _firebaseAuth.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
       return '';
     }
-    return 'Erro';
+    return 'O usuário cancelou a autenticação com o Google.';
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'account-exists-with-different-credential') {
+      return 'A conta já existe com outra credencial.';
+    } else if (e.code == 'invalid-credential') {
+      return 'A credencial do Google é inválida ou expirou.';
+    } else {
+      return 'Erro de autenticação: ${e.message}';
+    }
+  } on SocketException {
+    return 'Erro de rede. Verifique sua conexão com a internet.';
+  } catch (e) {
+    return 'Erro ao logar com Google: $e';
   }
-
+}
 
   Future<String> loginUser({required Usuario userLogged}) async {
     try {
-     await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
           email: userLogged.email, password: userLogged.password);
-
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       if (e.code == 'invalid-credential') {
@@ -75,7 +89,7 @@ class AuthService {
     } catch (e) {
       return "Erro ao efetuar Login";
     }
-      return '';
+    return '';
   }
 
   User? getCurrentUser() {
@@ -86,4 +100,3 @@ class AuthService {
     await _firebaseAuth.signOut();
   }
 }
-
