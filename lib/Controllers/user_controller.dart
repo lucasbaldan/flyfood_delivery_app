@@ -130,4 +130,37 @@ class UserController extends GetxController {
       );
     }
   }
+
+void logarGoogle() async {
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+        barrierDismissible: false,
+      );
+
+      String result = await FBAuth.loginGoogle();
+
+      if (result != '') {
+        Get.back();
+        Get.snackbar(
+          "Login Inválido",
+          result,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      } else {
+        Get.back();
+        Get.off(Homepage());
+        Get.snackbar(
+          "Sucesso",
+          "Login Efetuado com Sucesso!",
+          icon: const Icon(Icons.check),
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      }
+  }
 }

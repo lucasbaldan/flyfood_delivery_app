@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 2), () {
       if (FBAuth.getCurrentUser() == null) {
-        Get.off(const Loginpage());
+        Get.off(Loginpage());
       } else {
         Get.off(Homepage());
       }

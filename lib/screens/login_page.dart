@@ -1,10 +1,17 @@
+import 'package:antes_prova/Controllers/user_controller.dart';
 import 'package:antes_prova/screens/form_login_email_senha.dart';
 import 'package:antes_prova/screens/form_new_user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Loginpage extends StatelessWidget {
-  const Loginpage({super.key});
+  Loginpage({super.key});
+
+  
+final UserController userController = Get.isRegistered<UserController>()
+      ? Get.find<UserController>()
+      : Get.put(UserController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +61,20 @@ class Loginpage extends StatelessWidget {
                         ),
                         icon: const Icon(Icons.person_add_outlined),
                         onPressed: () => Get.to(() => FormNewUser())),
+                  ),
+                   const SizedBox(height: 25),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                        label: const Text("Google", style: TextStyle(fontSize: 15),),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.amber.shade400,
+                          foregroundColor: Colors.black,
+                          elevation: 20,
+                          padding: const EdgeInsets.fromLTRB(0, 13, 0, 13)
+                        ),
+                        icon: const Icon(Icons.person_add_outlined),
+                        onPressed: () => userController.logarGoogle()),
                   ),
                 ],
               ),

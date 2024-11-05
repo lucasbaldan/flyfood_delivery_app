@@ -53,7 +53,7 @@ class Homepage extends StatelessWidget {
               leading: Icon(Icons.settings),
             ),
             ListTile(
-              onTap: () => {FBAuth.logout(), Get.off(const Loginpage())},
+              onTap: () => {FBAuth.logout(), Get.off(Loginpage())},
               title: const Text("Sair"),
               leading: const Icon(Icons.logout),
             )

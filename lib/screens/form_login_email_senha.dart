@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 class FormLoginEmailSenha extends StatelessWidget {
   FormLoginEmailSenha({super.key});
 
-final UserController userController = Get.isRegistered<UserController>()
-      ? Get.find<UserController>()
-      : Get.put(UserController());
+final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {

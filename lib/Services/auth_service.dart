@@ -1,5 +1,6 @@
 import 'package:antes_prova/Models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -35,6 +36,26 @@ class AuthService {
     return '';
   }
 
+  Future<String> loginGoogle() async {
+    GoogleSignIn googleSignIn = GoogleSignIn();
+
+    GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+
+    if (googleSignInAccount != null){
+        GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+      AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken
+      );
+
+      await _firebaseAuth.signInWithCredential(credential);
+      return '';
+    }
+    return 'Erro';
+  }
+
+
   Future<String> loginUser({required Usuario userLogged}) async {
     try {
      await _firebaseAuth.signInWithEmailAndPassword(
@@ -65,3 +86,4 @@ class AuthService {
     await _firebaseAuth.signOut();
   }
 }
+
