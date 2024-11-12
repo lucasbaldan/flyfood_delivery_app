@@ -127,17 +127,7 @@ class Formmercadoria extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             onPressed: () {
-                              if (mercadoriaControllerForm.formKey.currentState!.validate()) {
-                              var resposta =  mercadoriaControllerForm.addMercadoria(
-                                    mercadoriaControllerForm.nomeProdutoController.text,
-                                    double.parse(mercadoriaControllerForm.larguraProdutoController.text),
-                                    double.parse(mercadoriaControllerForm.alturaProdutoController.text),
-                                    double.parse(mercadoriaControllerForm.pesoProdutoController.text));
-
-                                    if(resposta){
-                                      Get.snackbar('Sucesso', 'Mercadoria Adicionada!', backgroundColor: Colors.green.shade500, icon: const Icon(Icons.done), duration: const Duration(seconds: 5));
-                                    }
-                              }
+                              mercadoriaControllerForm.createMercadoria();
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,

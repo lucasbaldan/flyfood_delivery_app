@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 class ListMercadoria extends StatelessWidget {
   ListMercadoria({super.key});
 
-  final MercadoriaController mercadoriaControllerList =
-      Get.put(MercadoriaController());
+  final MercadoriaController mercadoriaControllerList = Get.put(MercadoriaController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class ListMercadoria extends StatelessWidget {
             child: Obx(() {
               if (mercadoriaControllerList.mercadoriaList.isEmpty) {
                 return const Center(
-                  child: Text('Nenhum produto cadastrado'),
+                  child: Text('Nenhum produto encontrado 🔎'),
                 );
               } else {
                 return ListView.builder(

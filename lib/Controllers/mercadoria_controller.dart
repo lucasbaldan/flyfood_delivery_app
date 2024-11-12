@@ -1,15 +1,22 @@
+import 'dart:io';
+
 import 'package:antes_prova/Models/mercadoria_model.dart';
 import 'package:antes_prova/Services/database_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:antes_prova/screens/list_mercadoria.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
-import 'package:uuid/v1.dart';
 
 DataBaseFirestore db = Get.find<DataBaseFirestore>();
 
 class MercadoriaController extends GetxController {
-  //var mercadoriaList = <Mercadoria>[].obs;
+  var mercadoriaList = <Mercadoria>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getAll();
+  }
 
   var formKey = GlobalKey<FormState>();
   TextEditingController nomeProdutoController = TextEditingController();
@@ -51,8 +58,17 @@ class MercadoriaController extends GetxController {
     return null;
   }
 
-  Future<String> createMercadoria() async {
-    try {
+  void createMercadoria() async {
+    if (formKey.currentState!.validate()) {
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+        barrierDismissible: false,
+      );
+
       Mercadoria mercadoria = Mercadoria(
           id: const Uuid().v1(),
           nome: nomeProdutoController.text,
@@ -60,23 +76,61 @@ class MercadoriaController extends GetxController {
           largura: double.parse(larguraProdutoController.text),
           peso: double.parse(pesoProdutoController.text));
 
-      await db
-          .collection('mercadorias')
-          .doc(mercadoria.id)
-          .set(mercadoria.toMap());
-    } on FirebaseException catch (e) {
-      String errorMessage;
-      if (e.code == 'permission-denied') {
-        errorMessage = "Usuário sem permissão para esta ação";
-      } else if (e.code == 'unavailable') {
-        errorMessage = "Serviço indisponível. Verifique a conexão.";
+      String result = await mercadoria.addMercadoriaFireStore(db);
+
+      if (result != '') {
+        Get.back();
+        Get.snackbar(
+          "Ops! Algo deu errado ☹️",
+          result,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
       } else {
-        errorMessage = "Erro Firestore: ${e.message}";
+        Get.back();
+        Get.off(() => ListMercadoria());
+        Get.snackbar(
+          "Sucesso",
+          "Item cadastrado com sucesso",
+          icon: const Icon(Icons.check),
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        getAll();
       }
-      return errorMessage;
-    } catch (e) {
-      return "Erro inesperado no FireBase: $e";
+    } else {
+      Get.snackbar(
+        "Atenção",
+        "Por favor, preencha todos os campos corretamente.",
+        backgroundColor: Colors.orange.shade400,
+        colorText: Colors.white,
+      );
     }
-    return '';
+  }
+
+  void getAll() async {
+
+      List<Mercadoria> result = await Mercadoria.getAll(db);
+
+      if (result.isEmpty) {
+        //Get.back();
+        Get.snackbar(
+          "Ops! Algo deu errado ☹️",
+          'Falha ao se comunicar com a base de dados',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      } else {
+        Get.snackbar(
+          "Sucesso",
+          "Itens consultados com sucesso",
+          icon: const Icon(Icons.check),
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        mercadoriaList.clear();
+        mercadoriaList.addAll(result);
+        //Get.back();
+      }
   }
 }
