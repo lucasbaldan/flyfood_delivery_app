@@ -1,18 +1,23 @@
 import 'package:antes_prova/Models/mercadoria_model.dart';
+import 'package:antes_prova/Services/database_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
+import 'package:uuid/v1.dart';
 
-class MercadoriaController extends GetxController{
+DataBaseFirestore db = Get.find<DataBaseFirestore>();
 
-  var mercadoriaList = <Mercadoria>[].obs;
+class MercadoriaController extends GetxController {
+  //var mercadoriaList = <Mercadoria>[].obs;
 
-   var formKey = GlobalKey<FormState>();
-   TextEditingController nomeProdutoController = TextEditingController();
-   TextEditingController larguraProdutoController = TextEditingController();
-   TextEditingController alturaProdutoController = TextEditingController();
-   TextEditingController pesoProdutoController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  TextEditingController nomeProdutoController = TextEditingController();
+  TextEditingController larguraProdutoController = TextEditingController();
+  TextEditingController alturaProdutoController = TextEditingController();
+  TextEditingController pesoProdutoController = TextEditingController();
 
-   String? validaNomeProduto(String? value) {
+  String? validaNomeProduto(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor, insira o nome da mercadoria';
     }
@@ -37,7 +42,6 @@ class MercadoriaController extends GetxController{
     return null;
   }
 
-  
   String? validaPesoProduto(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor, insira o peso da mercadoria';
@@ -47,12 +51,32 @@ class MercadoriaController extends GetxController{
     return null;
   }
 
-  bool addMercadoria(String nomeProduto, double largura, double altura, double peso){
+  Future<String> createMercadoria() async {
+    try {
+      Mercadoria mercadoria = Mercadoria(
+          id: const Uuid().v1(),
+          nome: nomeProdutoController.text,
+          altura: double.parse(alturaProdutoController.text),
+          largura: double.parse(larguraProdutoController.text),
+          peso: double.parse(pesoProdutoController.text));
 
-    mercadoriaList.add(Mercadoria(nome: nomeProduto, altura: altura, largura: largura, peso: peso));
-
-    return true;
-
+      await db
+          .collection('mercadorias')
+          .doc(mercadoria.id)
+          .set(mercadoria.toMap());
+    } on FirebaseException catch (e) {
+      String errorMessage;
+      if (e.code == 'permission-denied') {
+        errorMessage = "Usuário sem permissão para esta ação";
+      } else if (e.code == 'unavailable') {
+        errorMessage = "Serviço indisponível. Verifique a conexão.";
+      } else {
+        errorMessage = "Erro Firestore: ${e.message}";
+      }
+      return errorMessage;
+    } catch (e) {
+      return "Erro inesperado no FireBase: $e";
+    }
+    return '';
   }
-
 }
