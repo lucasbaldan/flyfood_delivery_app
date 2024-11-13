@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:antes_prova/Models/mercadoria_model.dart';
 import 'package:antes_prova/Services/database_firestore.dart';

@@ -1,4 +1,5 @@
 import 'package:antes_prova/Controllers/user_controller.dart';
+import 'package:antes_prova/components/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,15 +13,10 @@ final UserController userController = Get.find<UserController>();
     return Form(
         key: userController.formKey,
         child: Scaffold(
-            appBar: AppBar(
-                elevation: 20,
-                shadowColor: Colors.black,
-                backgroundColor: const Color(0xfffc11313),
-                title: const Text("FlyFood"),
-                titleTextStyle: const TextStyle(fontSize: 25)),
+            appBar: const MyAppBar(),
             body: SingleChildScrollView(
                 child: Container(
-                  height: 718,
+                  height: MediaQuery.of(context).size.height - kToolbarHeight,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/fundocaduser.png'),
@@ -148,7 +144,7 @@ final UserController userController = Get.find<UserController>();
                             }),
                       ),
                     ),
-                    const SizedBox(height: 30,)
+                    const SizedBox(height: 40,)
                   ],
                 ),
               ),

@@ -2,7 +2,9 @@ import 'package:antes_prova/Controllers/user_controller.dart';
 import 'package:antes_prova/screens/form_login_email_senha.dart';
 import 'package:antes_prova/screens/form_new_user.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Loginpage extends StatelessWidget {
   Loginpage({super.key});
@@ -26,9 +28,9 @@ final UserController userController = Get.isRegistered<UserController>()
               height: 180,
             ),
             Image.asset('assets/logo.png'),
-            const Text(
+            Text(
               "O CÉU NÃO É MAIS O LIMITE PARA SUA FOME",
-              style: TextStyle(color: Color(0xfffffd700), fontSize: 15),
+              style: GoogleFonts.kanit(color: Colors.amber.shade400, fontSize: 17),
             ),
             const Spacer(),
             Padding(
@@ -68,12 +70,12 @@ final UserController userController = Get.isRegistered<UserController>()
                     child: ElevatedButton.icon(
                         label: const Text("Google", style: TextStyle(fontSize: 15),),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber.shade400,
+                          backgroundColor: Color.fromARGB(255, 255, 244, 244),
                           foregroundColor: Colors.black,
                           elevation: 20,
                           padding: const EdgeInsets.fromLTRB(0, 13, 0, 13)
                         ),
-                        icon: const Icon(Icons.person_add_outlined),
+                        icon: const Icon(FontAwesomeIcons.google),
                         onPressed: () => userController.logarGoogle()),
                   ),
                 ],

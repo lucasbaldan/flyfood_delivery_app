@@ -2,6 +2,7 @@ import 'package:antes_prova/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,6 +21,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          textTheme: GoogleFonts.kanitTextTheme(
+        Theme.of(context).textTheme,
+      ),
           colorScheme: ColorScheme.fromSeed(
               seedColor: const Color.fromARGB(255, 255, 255, 255)),
           useMaterial3: true,
