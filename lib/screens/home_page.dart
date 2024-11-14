@@ -1,65 +1,19 @@
-import 'package:antes_prova/Services/auth_service.dart';
+import 'package:antes_prova/components/AppBar.dart';
 import 'package:antes_prova/components/BottomNavFlyFood.dart';
+import 'package:antes_prova/components/Drawer.dart';
 import 'package:antes_prova/screens/list_mercadoria.dart';
-import 'package:antes_prova/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Homepage extends StatelessWidget {
-  Homepage({super.key});
-
-  final AuthService FBAuth = Get.find<AuthService>();
+ const Homepage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String nomeUsuario = FBAuth.getCurrentUser()?.displayName ?? 'Usuário';
 
     return Scaffold(
-      appBar: AppBar(
-          elevation: 20,
-          shadowColor: Colors.black,
-          backgroundColor: const Color(0xfffc11313),
-          title: const Text("FlyFood"),
-          titleTextStyle: const TextStyle(fontSize: 25)),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-                child: Column(
-              children: [
-                const CircleAvatar(
-                  maxRadius: 35,
-                  backgroundImage: AssetImage('assets/user.png'),
-                ),
-                const Padding(padding: EdgeInsetsDirectional.all(5)),
-                Text(nomeUsuario),
-                const Text("Plano Atual: Premium")
-              ],
-            )),
-            const ListTile(
-              title: Text("Home"),
-              leading: Icon(Icons.home),
-            ),
-            const ListTile(
-              title: Text("Trocar Plano"),
-              leading: Icon(Icons.price_change),
-            ),
-            const ListTile(
-              title: Text("Regiões Atendidas"),
-              leading: Icon(Icons.map),
-            ),
-            const ListTile(
-              title: Text("Configurações"),
-              leading: Icon(Icons.settings),
-            ),
-            ListTile(
-              onTap: () => {FBAuth.logout(), Get.off(Loginpage())},
-              title: const Text("Sair"),
-              leading: const Icon(Icons.logout),
-            )
-          ],
-        ),
-      ),
+      appBar: const MyAppBar(),
+      drawer: MyAppDrawer(),
       body: Column(
         children: [
           Container(
@@ -157,7 +111,7 @@ class Homepage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)),
                   ),
                   onPressed: () {
-                    Get.to(ListMercadoria());
+                    Get.to(() => ListMercadoria());
                   },
                   child: const Column(
                     children: [

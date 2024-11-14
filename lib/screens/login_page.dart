@@ -70,7 +70,7 @@ final UserController userController = Get.isRegistered<UserController>()
                     child: ElevatedButton.icon(
                         label: const Text("Google", style: TextStyle(fontSize: 15),),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 255, 244, 244),
+                          backgroundColor: const Color.fromARGB(255, 255, 244, 244),
                           foregroundColor: Colors.black,
                           elevation: 20,
                           padding: const EdgeInsets.fromLTRB(0, 13, 0, 13)

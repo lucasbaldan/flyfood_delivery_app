@@ -1,4 +1,6 @@
 import 'package:antes_prova/Controllers/mercadoria_controller.dart';
+import 'package:antes_prova/components/AppBar.dart';
+import 'package:antes_prova/components/Drawer.dart';
 import 'package:antes_prova/screens/form_mercadoria.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,12 +13,8 @@ class ListMercadoria extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          elevation: 20,
-          shadowColor: Colors.black,
-          backgroundColor: const Color(0xfffc11313),
-          title: const Text("FlyFood"),
-          titleTextStyle: const TextStyle(fontSize: 25)),
+      appBar: const MyAppBar(),
+      drawer: MyAppDrawer(),
       body: Column(
         children: [
           Container(

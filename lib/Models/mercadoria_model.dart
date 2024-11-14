@@ -60,15 +60,7 @@ class Mercadoria {
 
      return querySnapshot.docs.map((doc) => Mercadoria.toObj(doc.data())).toList();
 
-    } on FirebaseException catch (e) {
-      // String errorMessage;
-      // if (e.code == 'permission-denied') {
-      //   errorMessage = "Usuário sem permissão para esta ação";
-      // } else if (e.code == 'unavailable') {
-      //   errorMessage = "Serviço indisponível. Verifique a conexão.";
-      // } else {
-      //   errorMessage = "Erro Firestore: ${e.message}";
-      // }
+    } on FirebaseException {
       return [];
     } catch (e) {
       return [];

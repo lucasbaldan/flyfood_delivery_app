@@ -95,7 +95,6 @@ class MercadoriaController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        getAll();
       }
     } else {
       Get.snackbar(
