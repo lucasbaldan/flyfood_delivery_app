@@ -8,14 +8,7 @@ import 'package:uuid/uuid.dart';
 
 DataBaseFirestore db = Get.find<DataBaseFirestore>();
 
-class MercadoriaController extends GetxController {
-  var mercadoriaList = <Mercadoria>[].obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    getAll();
-  }
+class FormMercadoriaController extends GetxController {
 
   var formKey = GlobalKey<FormState>();
   TextEditingController nomeProdutoController = TextEditingController();
@@ -104,31 +97,5 @@ class MercadoriaController extends GetxController {
         colorText: Colors.white,
       );
     }
-  }
-
-  void getAll() async {
-
-      List<Mercadoria> result = await Mercadoria.getAll(db);
-
-      if (result.isEmpty) {
-        //Get.back();
-        Get.snackbar(
-          "Ops! Algo deu errado ☹️",
-          'Falha ao se comunicar com a base de dados',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      } else {
-        Get.snackbar(
-          "Sucesso",
-          "Itens consultados com sucesso",
-          icon: const Icon(Icons.check),
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-        mercadoriaList.clear();
-        mercadoriaList.addAll(result);
-        //Get.back();
-      }
   }
 }

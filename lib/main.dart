@@ -1,3 +1,4 @@
+import 'package:antes_prova/routes/routes.dart';
 import 'package:antes_prova/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
               seedColor: const Color.fromARGB(255, 255, 255, 255)),
           useMaterial3: true,
         ),
-        home: SplashScreen()
+        home: SplashScreen(),
+        getPages: AppScreens.routes,
         );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:antes_prova/Controllers/mercadoria_controller.dart';
+import 'package:antes_prova/Controllers/list_mercadoria_controller.dart';
 import 'package:antes_prova/components/AppBar.dart';
 import 'package:antes_prova/components/Drawer.dart';
 import 'package:antes_prova/screens/form_mercadoria.dart';
@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class ListMercadoria extends StatelessWidget {
   ListMercadoria({super.key});
 
-  final MercadoriaController mercadoriaControllerList = Get.put(MercadoriaController());
+  final ListMercadoriaController mercadoriaControllerList = Get.put(ListMercadoriaController());
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class ListMercadoria extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => Formmercadoria()),
+        onPressed: () => {Get.to(() => Formmercadoria())},
         foregroundColor: Colors.black,
         backgroundColor: Colors.amber.shade300,
         child: const Icon(Icons.add_circle_outline_sharp),

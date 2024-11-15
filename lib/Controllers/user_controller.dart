@@ -72,7 +72,7 @@ class UserController extends GetxController {
           backgroundColor: const Color.fromARGB(255, 10, 117, 0),
           colorText: Colors.white,
         );
-        Get.off(Homepage());
+        Get.off(const Homepage());
       }
     } else {
       Get.snackbar(
@@ -112,7 +112,7 @@ class UserController extends GetxController {
         );
       } else {
         Get.back();
-        Get.off(Homepage());
+        Get.off(const Homepage());
         Get.snackbar(
           "Sucesso",
           "Login Efetuado com Sucesso!",
@@ -153,7 +153,7 @@ void logarGoogle() async {
         );
       } else {
         Get.back();
-        Get.off(Homepage());
+        Get.off(const Homepage());
         Get.snackbar(
           "Sucesso",
           "Login Efetuado com Sucesso!",

@@ -1,4 +1,4 @@
-import 'package:antes_prova/Controllers/mercadoria_controller.dart';
+import 'package:antes_prova/Controllers/form_mercadoria_controller.dart';
 import 'package:antes_prova/components/AppBar.dart';
 import 'package:antes_prova/components/Drawer.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class Formmercadoria extends StatelessWidget {
-  Formmercadoria({super.key});
+   Formmercadoria({super.key});
 
-  final MercadoriaController mercadoriaControllerForm =
-      Get.find<MercadoriaController>();
+  final FormMercadoriaController mercadoriaControllerForm = Get.put(FormMercadoriaController());
 
   @override
   Widget build(BuildContext context) {

@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
       if (fBAuth.getCurrentUser() == null) {
         Get.off(Loginpage());
       } else {
-        Get.off(Homepage());
+        Get.off(const Homepage());
       }
     });
 
