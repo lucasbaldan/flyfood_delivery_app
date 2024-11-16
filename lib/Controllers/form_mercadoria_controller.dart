@@ -1,4 +1,3 @@
-
 import 'package:antes_prova/Models/mercadoria_model.dart';
 import 'package:antes_prova/Services/database_firestore.dart';
 import 'package:antes_prova/screens/list_mercadoria.dart';
@@ -6,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
-DataBaseFirestore db = Get.find<DataBaseFirestore>();
-
 class FormMercadoriaController extends GetxController {
+  DataBaseFirestore db = Get.find<DataBaseFirestore>();
 
   var formKey = GlobalKey<FormState>();
   TextEditingController nomeProdutoController = TextEditingController();
@@ -80,7 +78,7 @@ class FormMercadoriaController extends GetxController {
         );
       } else {
         Get.back();
-        Get.off(() => ListMercadoria());
+        Get.off(() => const ListMercadoria());
         Get.snackbar(
           "Sucesso",
           "Item cadastrado com sucesso",

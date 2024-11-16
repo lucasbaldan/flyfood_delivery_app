@@ -41,9 +41,10 @@ class MyAppDrawer extends StatelessWidget {
             title: Text("Regiões Atendidas"),
             leading: Icon(Icons.map),
           ),
-          const ListTile(
-            title: Text("Configurações"),
-            leading: Icon(Icons.settings),
+          ListTile(
+            title: const Text("Configurações"),
+            leading: const Icon(Icons.settings),
+            onTap: () => {Get.toNamed('/configuracoes')},
           ),
           ListTile(
             onTap: () => {fBAuth.logout(), Get.off(Loginpage())},

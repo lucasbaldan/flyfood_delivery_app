@@ -7,16 +7,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Loginpage extends StatelessWidget {
-  Loginpage({super.key});
-
-  
-final UserController userController = Get.isRegistered<UserController>()
-      ? Get.find<UserController>()
-      : Get.put(UserController());
-
+  const Loginpage({super.key});
 
   @override
   Widget build(BuildContext context) {
+      
+final UserController userController = Get.find<UserController>();
+
     return Scaffold(
       backgroundColor: const Color(0xfffc11313),
       body: Center(

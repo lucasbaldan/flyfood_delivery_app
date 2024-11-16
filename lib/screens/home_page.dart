@@ -111,7 +111,7 @@ class Homepage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)),
                   ),
                   onPressed: () {
-                    Get.to(() => ListMercadoria());
+                    Get.toNamed('/list-mercadoria');
                   },
                   child: const Column(
                     children: [

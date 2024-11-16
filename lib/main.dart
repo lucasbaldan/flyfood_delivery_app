@@ -1,5 +1,4 @@
 import 'package:antes_prova/routes/routes.dart';
-import 'package:antes_prova/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        title: 'Flutter Demo',
+        title: 'FlyFood',
         theme: ThemeData(
           textTheme: GoogleFonts.kanitTextTheme(
         Theme.of(context).textTheme,
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
               seedColor: const Color.fromARGB(255, 255, 255, 255)),
           useMaterial3: true,
         ),
-        home: SplashScreen(),
+        initialRoute: '/splash-screen',
         getPages: AppScreens.routes,
         );
   }

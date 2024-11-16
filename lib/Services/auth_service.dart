@@ -39,37 +39,37 @@ class AuthService {
   }
 
   Future<String> loginGoogle() async {
-  try {
-    GoogleSignIn googleSignIn = GoogleSignIn();
-    GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
-    if (googleSignInAccount != null) {
-      GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
+      if (googleSignInAccount != null) {
+        GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
 
-      AuthCredential credential = GoogleAuthProvider.credential(
-        idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken,
-      );
+        AuthCredential credential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken,
+        );
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      return '';
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        return '';
+      }
+      return 'O usuário cancelou a autenticação com o Google.';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        return 'A conta já existe com outra credencial.';
+      } else if (e.code == 'invalid-credential') {
+        return 'A credencial do Google é inválida ou expirou.';
+      } else {
+        return 'Erro de autenticação: ${e.message}';
+      }
+    } on SocketException {
+      return 'Erro de rede. Verifique sua conexão com a internet.';
+    } catch (e) {
+      return 'Erro ao logar com Google: $e';
     }
-    return 'O usuário cancelou a autenticação com o Google.';
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'account-exists-with-different-credential') {
-      return 'A conta já existe com outra credencial.';
-    } else if (e.code == 'invalid-credential') {
-      return 'A credencial do Google é inválida ou expirou.';
-    } else {
-      return 'Erro de autenticação: ${e.message}';
-    }
-  } on SocketException {
-    return 'Erro de rede. Verifique sua conexão com a internet.';
-  } catch (e) {
-    return 'Erro ao logar com Google: $e';
   }
-}
 
   Future<String> loginUser({required Usuario userLogged}) async {
     try {
@@ -98,5 +98,21 @@ class AuthService {
 
   Future<void> logout() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<String> deleteUser() async {
+    try {
+      await _firebaseAuth.currentUser?.delete();
+      return '';
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'requires-recent-login':
+          return '9999999';
+        default:
+          return 'Ocorreu um erro ao excluir o usuário: ${e.message}';
+      }
+    } catch (e) {
+      return 'Erro inesperado ao excluir seu usuário: $e';
+    }
   }
 }
