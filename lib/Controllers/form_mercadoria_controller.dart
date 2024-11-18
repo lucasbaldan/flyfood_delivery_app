@@ -78,7 +78,7 @@ class FormMercadoriaController extends GetxController {
         );
       } else {
         Get.back();
-        Get.off(() => const ListMercadoria());
+        Get.offAndToNamed('/list-mercadoria');
         Get.snackbar(
           "Sucesso",
           "Item cadastrado com sucesso",

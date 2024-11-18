@@ -54,16 +54,35 @@ class Mercadoria {
     return '';
   }
 
+  Future<String> delMercadoriaFireStore(DataBaseFirestore db) async {
+    try {
+      await db.collection('mercadorias').doc(id).delete();
+    } on FirebaseException catch (e) {
+      String errorMessage;
+      if (e.code == 'permission-denied') {
+        errorMessage = "Usuário sem permissão para esta ação";
+      } else if (e.code == 'unavailable') {
+        errorMessage = "Serviço indisponível. Verifique a conexão.";
+      } else {
+        errorMessage = "Erro Firestore: ${e.message}";
+      }
+      return errorMessage;
+    } catch (e) {
+      return "Erro inesperado no FireBase: $e";
+    }
+    return '';
+  }
+
   static Future<List<Mercadoria>> getAll(DataBaseFirestore db) async {
     try {
      final querySnapshot =  await db.collection('mercadorias').get();
 
      return querySnapshot.docs.map((doc) => Mercadoria.toObj(doc.data())).toList();
 
-    } on FirebaseException {
-      return [];
+    } on FirebaseException catch (e) {
+      throw Exception('Erro ao buscar mercadorias: ${e.message}');
     } catch (e) {
-      return [];
+      throw Exception('Erro inesperado: $e');
     }
   }
 }
